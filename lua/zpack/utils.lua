@@ -290,12 +290,16 @@ M.derive_name_from_src = function(src)
   return (basename:gsub('%.git$', ''))
 end
 
----Expand a `[1]` short name ("user/repo") to its GitHub URL. Shared by
+---Expand a `[1]` short name ("user/repo") to its GitHub URL. Full URLs and
+---paths are returned unchanged. Shared by
 ---`normalize_source` and merge.lua's coalesce fold so the two sites cannot
 ---drift on what a shorthand resolves to.
 ---@param short_name string
 ---@return string
 M.github_url = function(short_name)
+  if short_name:match('^%a[%w+.-]*://') or short_name:match('^[%w_.-]+@[^/]+:') or short_name:match('^[/~.]') then
+    return short_name
+  end
   return 'https://github.com/' .. short_name
 end
 
