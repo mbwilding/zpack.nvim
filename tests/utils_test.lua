@@ -193,11 +193,11 @@ describe('latch_first_call', function()
   end)
 end)
 
-describe("github_url", function()
+describe("expand_src", function()
   local utils = require('zpack.utils')
 
   it("expands a short name to a GitHub URL", function()
-    assert.are.equal('https://github.com/user/repo', utils.github_url('user/repo'))
+    assert.are.equal('https://github.com/user/repo', utils.expand_src('user/repo'))
   end)
 
   it("returns full URLs unchanged", function()
@@ -209,13 +209,13 @@ describe("github_url", function()
       'file:///home/user/repo',
     }
     for _, url in ipairs(urls) do
-      assert.are.equal(url, utils.github_url(url))
+      assert.are.equal(url, utils.expand_src(url))
     end
   end)
 
   it("returns local paths unchanged", function()
-    assert.are.equal('/home/user/repo', utils.github_url('/home/user/repo'))
-    assert.are.equal('~/repo', utils.github_url('~/repo'))
-    assert.are.equal('./repo', utils.github_url('./repo'))
+    assert.are.equal('/home/user/repo', utils.expand_src('/home/user/repo'))
+    assert.are.equal('~/repo', utils.expand_src('~/repo'))
+    assert.are.equal('./repo', utils.expand_src('./repo'))
   end)
 end)
